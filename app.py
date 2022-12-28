@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
@@ -8,7 +8,16 @@ def index():
     return {
         "status_code": 200,
         "message": "Success!"
-    }
+    }, 200
+
+
+@app.route("/post", methods=["POST"])
+def post():
+    if request.method == "POST":
+        input_request = request.get_json()
+        return jsonify(input_request), 201
+    else:
+        return jsonify({"message": "use post!"}), 405
 
 
 @app.errorhandler(404)
